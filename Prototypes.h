@@ -44,6 +44,6 @@ void SummonThings(std::vector<PSPELL>);
 void ShowSettings();
 void UpdateSearchString();
 void UseDiscs();
-void VerifyINI(char* ININame, char* Section, char* Key, char* Default);
+void VerifyINI(const char* ININame, const char* Section, const char* Key, const char* Default);
 
 //End Prototypes

@@ -176,10 +176,10 @@ void CheckAlias()
 		WriteChatf("%s\ayWARNING\ao::\awAliases for \ao%s\aw were detected and removed.", PLUGINMSG, aliases);
 }
 
-void VerifyINI(char* Section, char* Key, char* Default, char* ININame)
+void VerifyINI(const char* Section, const char* Key, const char* Default, const char* ININame)
 {
 	char temp[MAX_STRING] = { 0 };
-	if (GetPrivateProfileString(Section, Key, 0, temp, MAX_STRING, ININame) == 0)
+	if (GetPrivateProfileString(Section, Key, nullptr, temp, MAX_STRING, ININame) == 0)
 	{
 		WritePrivateProfileString(Section, Key, Default, ININame);
 	}
