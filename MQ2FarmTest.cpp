@@ -883,7 +883,7 @@ unsigned long SearchSpawns(char* szIndex)
 
 		float pathlength = PathLength(pSpawn->SpawnID);
 		if (Debugging && pathlength == -1)
-			WriteChatf("%s: PathExists: \arFALSE\ax PathLength: %i Distance3D: %i", pSpawn->Name, (int)pathlength, (int)Distance3DToSpawn(GetCharInfo()->pSpawn, pSpawn));
+			WriteChatf("%s: PathExists: \arFALSE\ax PathLength: %i Distance3D: %i", pSpawn->Name, (int)pathlength, (int)GetDistance3D(GetCharInfo()->pSpawn, pSpawn));
 
 		if (fShortest > pathlength && pathlength != -1) {
 			fShortest = pathlength;
@@ -1274,7 +1274,7 @@ void CastDetrimentalSpells()
 					strcat_s(castcommand, MAX_STRING, s.c_str());
 
 					if (GetCharInfo()->pSpawn->GetCurrentMana() > spell->ManaCost) {
-						if (pTarget && Distance3DToSpawn(GetCharInfo()->pSpawn, pTarget) < spell->Range) {
+						if (pTarget && GetDistance3D(GetCharInfo()->pSpawn, pTarget) < spell->Range) {
 							WriteChatf("%s\arCasting \a-t----> \ap%s \ayfrom Gem %d", PLUGINMSG, spell->Name, GemIndex + 1);
 							EzCommand(castcommand);
 							CastLastTimeUsed = GetTickCount64();
@@ -1457,20 +1457,20 @@ void NavigateToID(unsigned long ID) {
 
 	char szNavInfo[32];
 	sprintf_s(szNavInfo, 32, "id %u", ID);
-	if (Mob && (!LineOfSight(GetCharInfo()->pSpawn, Mob) || Distance3DToSpawn(GetCharInfo()->pSpawn, Mob) > 15)) {
+	if (Mob && (!LineOfSight(GetCharInfo()->pSpawn, Mob) || GetDistance3D(GetCharInfo()->pSpawn, Mob) > 15)) {
 		if (!NavActive()) {
 			if (!Casting())
 				NavCommand(szNavInfo);
 		}
 	}
 
-	if (LineOfSight(GetCharInfo()->pSpawn, Mob) && Distance3DToSpawn(GetCharInfo()->pSpawn, Mob) < 75) {
+	if (LineOfSight(GetCharInfo()->pSpawn, Mob) && GetDistance3D(GetCharInfo()->pSpawn, Mob) < 75) {
 		if (Mob && pTarget && pTarget->SpawnID != Mob->SpawnID || !pTarget) {
 			TargetIt(Mob);
 		}
 	}
 
-	if (LineOfSight(GetCharInfo()->pSpawn, Mob) && Distance3DToSpawn(GetCharInfo()->pSpawn, Mob) < 12) {
+	if (LineOfSight(GetCharInfo()->pSpawn, Mob) && GetDistance3D(GetCharInfo()->pSpawn, Mob) < 12) {
 		if (NavActive())
 			NavEnd();
 
@@ -1823,7 +1823,7 @@ bool DiscReady(PSPELL pSpell)
 		PlayerClient* me = GetCharInfo()->pSpawn;
 		if (me->GetCurrentMana() >= (int)pSpell->ManaCost && me->GetCurrentEndurance() >= (int)pSpell->EnduranceCost) {
 			if (pTarget && me) {
-				if (Distance3DToSpawn(me, pTarget) > pSpell->Range) {
+				if (GetDistance3D(me, pTarget) > pSpell->Range) {
 					return false;
 				}
 			}
